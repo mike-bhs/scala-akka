@@ -10,9 +10,11 @@ case class TodoRouter(todoRepository: TodoRepository) extends Router with Direct
 
   override def route: Route = pathPrefix("todos") {
     pathEndOrSingleSlash {
-      get {
-        complete(todoRepository.all())
-      }
+      get { complete(todoRepository.all()) }
+    } ~ path("done") {
+      get { complete(todoRepository.done()) }
+    } ~ path("pending") {
+      get { complete(todoRepository.pending()) }
     }
   }
 }
