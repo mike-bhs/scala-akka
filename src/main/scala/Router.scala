@@ -1,5 +1,6 @@
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{Directives, Route}
+import dao.TodosDao
 
 import scala.util.{Failure, Success}
 
@@ -14,7 +15,7 @@ case class TodoRouter(todoRepository: TodoRepository) extends Router with Direct
   override def route: Route = pathPrefix("todos") {
     pathEndOrSingleSlash {
       get {
-        onComplete(todoRepository.all()) {
+        onComplete(TodosDao.findAll) {
           case Success(todos) =>
             complete(todos)
           case Failure(err) =>
